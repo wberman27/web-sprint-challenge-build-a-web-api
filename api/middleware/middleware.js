@@ -18,13 +18,13 @@ const validateId = (model) => (req, res, next) => {
 
 const validatePost = (model) => (req, res, next) => {
     const newPost = req.body;
-    const projectIdArray = [];
         if(!newPost.project_id || !newPost.description || !newPost.notes){
             res.status(400).json({message: 'Please add a valid project_id, description, and notes'})
         }else{
             Projects.get()
             .then(project =>{
-                projectIdArray.push(project.id)
+                const projectIdArray = [];
+                project.map(p => projectIdArray.push(p.id))
                 if(projectIdArray.includes(newPost.project_id) === false){
                     res.status(404).json({message: `Project_ID: ${newPost.project_id} does not exist.`})
                 }else{
