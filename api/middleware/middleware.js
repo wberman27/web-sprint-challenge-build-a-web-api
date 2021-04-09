@@ -1,8 +1,6 @@
-const Actions = require('../actions/actions-model')
-
-function validateActionId(req, res, next) {
+const validateId = (model) => (req, res, next) => {
     const {id} = req.params;
-    Actions.get(id)
+    model.get(id) //use specified model from props
     .then(action =>{
         if(!action){
             res.status(404).json({message: `Action with id: ${id} does not exist.`})
@@ -14,25 +12,25 @@ function validateActionId(req, res, next) {
     })
 }
 
-function validatePost(req, res, next) {
+const validatePost = (model) => (req, res, next) => {
     const newPost = req.body;
         if(!newPost.project_id || !newPost.description || !newPost.notes){
             res.status(400).json({message: 'Please add a valid project_id, description, and notes'})
         }else{
-            Actions.insert(newPost)
+            model.insert(newPost) //use specified model from props
             .then(post =>{
                 req.newPost = post;
                 next()
             })    
         }
 }
-function validatePut(req, res, next) {
+const validatePut = (model) => (req, res, next) => {
     const {id} = req.params
     const updatedPost = req.body;
         if(!updatedPost.project_id || !updatedPost.description || !updatedPost.notes){
             res.status(400).json({message: 'Please add a valid project_id, description, and notes'})
         }else{
-            Actions.update(id, updatedPost)
+            model.update(id, updatedPost) //use specified model from props
             .then(post =>{
                 req.updatedPost = post;
                 next()
@@ -41,7 +39,7 @@ function validatePut(req, res, next) {
 }
 
 module.exports = {
-    validateActionId,
+    validateId,
     validatePost,
     validatePut,
 }
