@@ -1,15 +1,17 @@
+//imports
 const express = require('express');
 const server = express();
 const helmet = require('helmet');
 const morgan = require('morgan');
+const actionsRouter = require('./actions/actions-router')
 
+//use
+server.use(express.json()); //tells server to use json format
+server.use(morgan('dev')); //used for logging server request status
+server.use(helmet()); //used for security
+server.use(actionsRouter); //use actions router
 
-server.use(express.json());
-server.use(morgan('dev'));
-server.use(helmet())
-
-// Complete your server here!
-// Do NOT `server.listen()` inside this file!
+//default response at homepage
 server.get('/', (req, res)=>{
     res.send(`<h1>Sprint Challenge API</h1>`)
 });
