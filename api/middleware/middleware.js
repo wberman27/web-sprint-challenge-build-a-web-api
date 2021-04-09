@@ -43,8 +43,22 @@ const validatePut = (model) => (req, res, next) => {
         }
 }
 
+const validateProjectPost = (model) => (req, res, next) => {
+    const newPost = req.body;
+        if(!newPost.name || !newPost.description || !newPost.completed){
+            res.status(400).json({message: 'Please add a valid name, description, and completed status'})
+        }else{
+            model.insert(newPost) //use specified model from props
+            .then(post =>{
+                req.newPost = post;
+                next()
+            })    
+        }
+}
+
 module.exports = {
     validateId,
     validatePost,
     validatePut,
+    validateProjectPost,
 }
