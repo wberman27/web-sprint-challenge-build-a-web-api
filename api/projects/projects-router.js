@@ -23,8 +23,16 @@ router.get('/api/projects/:id', mw.validateId(Projects), (req,res)=>{
     res.status(200).json(req.project)
 })
 
+//post project
 router.post('/api/projects/', mw.validateProjectPost(Projects), (req,res)=>{
     res.status(201).json(req.newPost)
 })
+
+//update project
+router.put('/api/projects/:id', mw.validateId(Projects), mw.validateProjectPut(Projects), (req,res) =>{
+    res.status(201).json(req.updatedPost)
+})
+
+
 
 module.exports = router;
