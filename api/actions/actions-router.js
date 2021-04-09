@@ -29,6 +29,17 @@ router.post('/api/actions', mw.validatePost, (req, res) =>{
 })
 
 //update action with PUT
+router.put('/api/actions/:id', mw.validateActionId, mw.validatePut, (req, res)=>{
+    res.status(201).json(req.updatedPost)
+})
+
+//delete post
+router.delete('/api/actions/:id', mw.validateActionId, (req, res)=>{
+    Actions.remove(req.id)
+    .then(()=>{
+        res.json()
+    })
+})
 
 
 
