@@ -7,6 +7,7 @@ const validateId = (model) => (req, res, next) => {
         }else{
             req.project = action;
             req.action = action;
+            req.actionsArray = action.actions;
             req.id = id;
             next();
         }

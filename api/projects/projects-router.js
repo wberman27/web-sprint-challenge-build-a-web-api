@@ -41,6 +41,10 @@ router.delete('/api/projects/:id', mw.validateId(Projects), (req, res) =>{
     })
 })
 
+//get list of actions for a project as an array
+router.get('/api/projects/:id/actions', mw.validateId(Projects), (req, res) =>{
+    res.status(200).json(req.actionsArray)
+})
 
 
 module.exports = router;
