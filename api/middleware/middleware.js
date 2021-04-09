@@ -13,6 +13,20 @@ function validateActionId(req, res, next) {
     })
 }
 
+function validatePost(req, res, next) {
+    const newPost = req.body;
+        if(!newPost.project_id || !newPost.description || !newPost.notes){
+            res.status(400).json({message: 'Please add a valid project_id, description, and notes'})
+        }else{
+            Actions.insert(newPost)
+            .then(post =>{
+                req.newPost = post;
+                next()
+            })    
+        }
+}
+
 module.exports = {
     validateActionId,
+    validatePost,
 }
