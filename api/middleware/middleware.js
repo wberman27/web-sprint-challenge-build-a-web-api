@@ -1,3 +1,5 @@
+const Projects = require('../projects/projects-model')
+
 const validateId = (model) => (req, res, next) => {
     const {id} = req.params;
     model.get(id) //use specified model from props
@@ -16,19 +18,24 @@ const validateId = (model) => (req, res, next) => {
 
 const validatePost = (model) => (req, res, next) => {
     const newPost = req.body;
-    if(newPost.project_id !== 1){
-        res.status(404).json({message: `Project_ID: ${newPost.project_id} does not exist.`})
-    }else{
+    const projectIdArray = [];
         if(!newPost.project_id || !newPost.description || !newPost.notes){
             res.status(400).json({message: 'Please add a valid project_id, description, and notes'})
         }else{
-            model.insert(newPost) //use specified model from props
-            .then(post =>{
-                req.newPost = post;
-                next()
-            })    
+            Projects.get()
+            .then(project =>{
+                projectIdArray.push(project.id)
+                if(projectIdArray.includes(newPost.project_id) === false){
+                    res.status(404).json({message: `Project_ID: ${newPost.project_id} does not exist.`})
+                }else{
+                    model.insert(newPost) //use specified model from props
+                    .then(post =>{
+                        req.newPost = post;
+                        next()
+                    })    
+                }
+            })
         }
-    }
 }
 const validatePut = (model) => (req, res, next) => {
     const {id} = req.params
