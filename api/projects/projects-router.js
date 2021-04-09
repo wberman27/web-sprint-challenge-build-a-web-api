@@ -33,6 +33,14 @@ router.put('/api/projects/:id', mw.validateId(Projects), mw.validateProjectPut(P
     res.status(201).json(req.updatedPost)
 })
 
+//delete project
+router.delete('/api/projects/:id', mw.validateId(Projects), (req, res) =>{
+    Projects.remove(req.id)
+    .then(()=>{
+        res.json()
+    })
+})
+
 
 
 module.exports = router;
