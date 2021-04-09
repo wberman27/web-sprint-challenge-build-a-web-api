@@ -20,7 +20,7 @@ router.get('/api/projects', (req,res)=>{
 
 //get project by id
 router.get('/api/projects/:id', mw.validateId(Projects), (req,res)=>{
-
+    res.status(200).json(req.project)
 })
 
 

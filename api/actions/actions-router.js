@@ -24,12 +24,12 @@ router.get('/api/actions/:id', mw.validateId(Actions), (req,res) =>{
 })
 
 //post action
-router.post('/api/actions', mw.validatePost, (req, res) =>{
+router.post('/api/actions', mw.validatePost(Actions), (req, res) =>{
     res.status(201).json(req.newPost)
 })
 
 //update action with PUT
-router.put('/api/actions/:id', mw.validateId(Actions), mw.validatePut, (req, res)=>{
+router.put('/api/actions/:id', mw.validateId(Actions), mw.validatePut(Actions), (req, res)=>{
     res.status(201).json(req.updatedPost)
 })
 

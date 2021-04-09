@@ -3,8 +3,9 @@ const validateId = (model) => (req, res, next) => {
     model.get(id) //use specified model from props
     .then(action =>{
         if(!action){
-            res.status(404).json({message: `Action with id: ${id} does not exist.`})
+            res.status(404).json({message: `ID: ${id} does not exist.`})
         }else{
+            req.project = action;
             req.action = action;
             req.id = id;
             next();
@@ -14,6 +15,9 @@ const validateId = (model) => (req, res, next) => {
 
 const validatePost = (model) => (req, res, next) => {
     const newPost = req.body;
+    if(newPost.project_id !== 1){
+        res.status(404).json({message: `Project_ID: ${newPost.project_id} does not exist.`})
+    }else{
         if(!newPost.project_id || !newPost.description || !newPost.notes){
             res.status(400).json({message: 'Please add a valid project_id, description, and notes'})
         }else{
@@ -23,6 +27,7 @@ const validatePost = (model) => (req, res, next) => {
                 next()
             })    
         }
+    }
 }
 const validatePut = (model) => (req, res, next) => {
     const {id} = req.params
